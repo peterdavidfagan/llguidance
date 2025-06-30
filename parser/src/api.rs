@@ -16,6 +16,7 @@ pub use crate::earley::ValidationResult;
 /// "start" grammar at first position.
 /// Grammars can refer to each other via GenGrammar nodes.
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct TopLevelGrammar {
     pub grammars: Vec<GrammarWithLexer>,
     pub max_tokens: Option<usize>,
@@ -33,6 +34,7 @@ pub const DEFAULT_CONTEXTUAL: bool = true;
 
 /// In lark syntax, this can be specified as JSON object after '%llguidance' declaration in the grammar.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct LLGuidanceOptions {
     /// Normally, when a sequence of bytes is forced by grammar, it is tokenized
     /// canonically and forced as tokens.
@@ -61,6 +63,7 @@ impl LLGuidanceOptions {
 }
 
 #[derive(Serialize, Deserialize, Clone, Default)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GrammarWithLexer {
     /// The name of this grammar, can be used in GenGrammar nodes.
     pub name: Option<String>,
@@ -109,6 +112,7 @@ impl Debug for GrammarWithLexer {
 
 /// Optional fields allowed on any Node
 #[derive(Serialize, Deserialize, Default, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct NodeProps {
     pub max_tokens: Option<usize>,
     pub name: Option<String>,
@@ -116,6 +120,7 @@ pub struct NodeProps {
 }
 
 #[derive(Clone)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GenOptions {
     /// Regular expression matching the body of generation.
     pub body_rx: RegexAst,
@@ -142,6 +147,7 @@ pub struct GenOptions {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub struct GenGrammarOptions {
     pub grammar: GrammarId,
 
@@ -150,6 +156,7 @@ pub struct GenGrammarOptions {
 }
 
 #[derive(Serialize, Deserialize, Hash, PartialEq, Eq, Clone, Debug)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[serde(untagged)]
 pub enum GrammarId {
     Name(String),
@@ -164,6 +171,7 @@ impl Display for GrammarId {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[serde(deny_unknown_fields)]
 pub struct RegexExt {
     /// The lexeme should accept any (possibly empty) contiguous sequence of these chunks.
@@ -175,6 +183,7 @@ pub struct RegexExt {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 pub enum StopReason {
     /// Parser has not emitted stop() yet.
     NotStopped,
@@ -219,6 +228,7 @@ impl StopReason {
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
+#[cfg_attr(feature = "jsonschema", derive(schemars::JsonSchema))]
 #[serde(default)]
 #[repr(C)]
 pub struct ParserLimits {
